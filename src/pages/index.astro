@@ -1,0 +1,42 @@
+---
+// index.astro - The Paradise Frappe Landing Page
+import TropicalLayout from '../layouts/TropicalLayout.astro';
+import Hero from '../components/Hero.astro';
+import GummyButton from '../components/GummyButton.astro';
+import FeaturedDrinks from '../components/FeaturedDrinks.astro';
+import TropicalFooter from '../components/TropicalFooter.astro';
+
+// SEO Constants
+const siteTitle = "Paradise Frappe | Taste the Tropics";
+const siteDescription = "Escape the heat with hyper-realistic tropical blends and hand-crafted frappes. Order your Paradise Frappe today.";
+---
+
+<TropicalLayout title={siteTitle} description={siteDescription}>
+  
+  <Hero />
+
+  <section 
+    id="flavor-cta" 
+    aria-labelledby="cta-heading"
+    class="relative z-30 -mt-24 mb-32 flex flex-col items-center justify-center px-4 animate-in"
+  >
+    <h2 id="cta-heading" class="sr-only">Choose Your Flavor</h2>
+    
+    <div class="animate-item opacity-0">
+      <GummyButton 
+        text="Explore All Flavors" 
+        id="gummy-cta-main" 
+        class="scale-110" 
+      />
+    </div>
+
+    <p class="mt-8 text-sm font-black uppercase tracking-widest text-tropical-teal animate-item opacity-0">
+      Tropical. Chilled. Digital.
+    </p>
+  </section>
+
+  <FeaturedDrinks />
+
+  <TropicalFooter />
+
+</TropicalLayout>

@@ -1,0 +1,72 @@
+---
+interface Props {
+  text: string;
+  id?: string;
+  class?: string;
+}
+
+const { text, id = "gummy-cta", class: className } = Astro.props;
+---
+
+<button
+  id={id}
+  class:list={[
+    "relative px-10 py-4 font-black uppercase tracking-widest text-white transition-all duration-300 ease-out",
+    "bg-linear-to-b from-hot-pink to-tropical-teal",
+    "rounded-full cursor-pointer select-none",
+    "shadow-[0_10px_20px_rgba(255,105,180,0.4)] hover:shadow-[0_15px_25px_rgba(255,105,180,0.6)]",
+    "inset-shadow-sm inset-shadow-white/50 active:inset-shadow-black/20",
+    "hover:scale-105 active:scale-90",
+    "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald focus-visible:ring-offset-2",
+    "opacity-0", // Start hidden for the motion entrance
+    className
+  ]}
+>
+  <span class="drop-shadow-md">{text}</span>
+</button>
+
+<script>
+  import { animate, spring } from "motion";
+
+  const button = document.querySelector('button[id^="gummy-cta"]');
+
+  if (button) {
+    // 1. Check for accessibility preferences
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReducedMotion) {
+      // Accessible Fallback: Simple Fade
+      animate(button, { opacity: 1 }, { duration: 0.5 });
+    } else {
+      // Gummy Spring Entrance
+      animate(
+        button,
+        { 
+          opacity: [0, 1], 
+          scale: [0.5, 1.1, 1],
+          y: [20, -5, 0] 
+        },
+        { 
+          duration: 0.8,
+          easing: spring({ stiffness: 200, damping: 10, mass: 1 }) 
+        }
+      );
+    }
+  }
+</script>
+
+<style>
+  /* Optional: Add a "highlight" glare to enhance the gummy look */
+  button::after {
+    content: '';
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    width: 30%;
+    height: 20%;
+    background: rgba(255, 255, 255, 0.3);
+    filter: blur(4px);
+    border-radius: 100%;
+    pointer-events: none;
+  }
+</style>

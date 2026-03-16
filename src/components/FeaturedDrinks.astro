@@ -1,0 +1,102 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import mangoImg from '../assets/mango-passion.png';
+import { inView, animate, stagger, spring } from "motion";
+
+// Placeholder drink data - in a real app, this might come from a CMS or local JSON
+interface Drink {
+  name: string;
+  description: string;
+  image: string | ImageMetadata;// Tell TS it can be either
+  price: string;
+  offset: string;
+}
+
+const drinks: Drink[] = [
+  {
+    name: "Mango Passion Bliss",
+    description: "A sun-drenched blend of Alfonso mango and tart passionfruit.",
+    image: mangoImg,
+    price: "$6.50",
+    offset: "mt-0" 
+  },
+  {
+    name: "Electric Emerald",
+    description: "Cooling mint mixed with matcha and white chocolate curls.",
+    image: "https://placehold.co/400x500/008080/white?text=Electric+Emerald",
+    price: "$7.25",
+    offset: "md:-mt-12"
+  },
+  {
+    name: "Bubblegum Sky",
+    description: "Sweet nostalgic bubblegum with a blue raspberry swirl.",
+    image: "https://placehold.co/400x500/FFC1CC/white?text=Bubblegum+Sky",
+    price: "$6.75",
+    offset: "mt-0"
+  }
+];
+---
+
+<section id="featured-drinks" aria-labelledby="featured-heading" class="py-24 px-4 overflow-hidden">
+  <div class="container mx-auto">
+    <h2 id="featured-heading" class="text-4xl md:text-6xl font-black uppercase italic text-center mb-20 text-hot-pink drop-shadow-sm">
+      Fan Favorites
+    </h2>
+
+    <ul role="list" class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4 items-start">
+      {drinks.map((drink) => (
+        <li class:list={[
+          "featured-card opacity-0", // Start hidden for motion
+          "bg-white/10 backdrop-blur-lg border border-white/20 shadow-2xl rounded-3xl p-6 transition-transform hover:scale-105",
+          drink.offset
+        ]}>
+          <div class="relative mb-6 overflow-hidden rounded-2xl">
+            <Image 
+                src={drink.image || "https://placehold.co/400x500/gray/white?text=Missing+Drink"} 
+                alt={drink.name}
+                width={400} 
+                height={500}
+                class="object-cover w-full h-auto"
+            />
+          </div>
+          <div class="flex justify-between items-start mb-2">
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white leading-tight">{drink.name}</h3>
+            <span class="bg-emerald text-white text-sm font-black px-3 py-1 rounded-full">{drink.price}</span>
+          </div>
+          <p class="text-gray-700 dark:text-gray-200 text-sm leading-relaxed">
+            {drink.description}
+          </p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  import { inView, animate, stagger, spring } from "motion";
+
+  const cards = document.querySelectorAll('.featured-card');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (cards.length > 0) {
+    inView("#featured-drinks", () => {
+      if (prefersReducedMotion) {
+        animate(cards, { opacity: 1 }, { duration: 0.8 });
+      } else {
+        animate(
+          cards,
+          { 
+            opacity: [0, 1], 
+            y: [40, 0] 
+          },
+          { 
+            delay: stagger(0.2), 
+            duration: 0.8,
+            easing: spring({ stiffness: 100, damping: 12})
+          }
+        );
+      }
+    });
+  }
+</script>
