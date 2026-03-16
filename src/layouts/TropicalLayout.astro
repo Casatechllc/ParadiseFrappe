@@ -47,42 +47,13 @@ const {
         background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5,73.84-4.36,147.54,16.88,218.2,35.26,69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-1.42,1200,42.43V0Z' fill='%23FF69B4'/%3E%3C/svg%3E");
       }
     </style>
-
-    <script>
-      import { inView, animate, stagger, spring } from "motion";
-
-      inView(".animate-in", ({ target }) => {
-        const children = target.querySelectorAll(".animate-item");
-        
-        if (children.length > 0) {
-          animate(
-            children,
-            { opacity: [0, 1], y: [30, 0] },
-            { 
-              delay: stagger(0.1), 
-              duration: 0.8, 
-              easing: spring({ stiffness: 100, damping: 15 }) 
-            }
-          );
-        }
-      });
-    </script>
-  </head>
+    </head>
 
   <body class="flex min-h-screen flex-col font-sans bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:bg-emerald focus:text-white focus:px-4 focus:py-2 rounded-lg">
-      Skip to main content
-    </a>
-
+    
     <header class="bg-tropical-teal text-white py-6 shadow-lg">
       <div class="container mx-auto px-4 flex justify-between items-center">
         <span class="text-2xl font-black tracking-tighter uppercase italic">Paradise Frappe</span>
-        <nav aria-label="Main">
-          <ul class="flex gap-8 font-bold">
-            <li><a href="#" class="hover:text-bubblegum transition-colors">Flavors</a></li>
-            <li><a href="#" class="hover:text-bubblegum transition-colors">Locations</a></li>
-          </ul>
-        </nav>
       </div>
     </header>
 
@@ -90,8 +61,7 @@ const {
 
     <main id="main-content" class="flex-grow bg-gradient-to-b from-bubblegum/20 to-hot-pink/10">
       <div class="container mx-auto px-4 py-12">
-        <slot />
-      </div>
+        <slot /> </div>
     </main>
 
     <div class="liquid-divider liquid-bottom" aria-hidden="true"></div>
@@ -101,5 +71,55 @@ const {
         <p class="font-medium">Stay Cool. Stay Tropical. &copy; {new Date().getFullYear()}</p>
       </div>
     </footer>
+
+    <script is:inline src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>
+    
+    <script is:inline>
+      // 2. Access the functions from the global Motion object
+      const { animate, inView, stagger } = Motion;
+
+      function initAnimations() {
+        console.log("🚀 Tropical System: Initializing...");
+        
+        const items = document.querySelectorAll(".animate-item");
+        
+        // Safety check to make sure we have items
+        if (items.length === 0) {
+          console.log("🔎 No items found yet...");
+          return;
+        }
+
+        console.log("✅ Found items:", items.length);
+
+        // Reset styles so they are ready to animate
+        items.forEach(el => {
+          el.style.opacity = "0";
+          el.style.transform = "translateY(20px)";
+        });
+
+        // Use inView on the container
+        inView(".animate-in", (info) => {
+          console.log("🎯 Section Triggered!");
+          
+          animate(
+            items, 
+            { opacity: 1, y: 0 }, 
+            { 
+              delay: stagger(0.2), 
+              duration: 0.8,
+              easing: "ease-out"
+            }
+          );
+        }, { amount: 0.1 });
+      }
+
+      // Run once on load
+      window.addEventListener('load', initAnimations);
+      
+      // Also run immediately in case 'load' already fired
+      if (document.readyState === 'complete') {
+        initAnimations();
+      }
+    </script>
   </body>
 </html>

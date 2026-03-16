@@ -1,0 +1,26 @@
+---
+import { Image } from 'astro:assets';
+import type { ComponentProps } from 'astro/types';
+
+// We extend the built-in Image props to ensure strictness.
+// This enforces 'alt' as a required string for W3C compliance.
+interface Props extends Omit<ComponentProps<typeof Image>, 'alt'> {
+  alt: string; 
+  class?: string;
+}
+
+const { src, alt, class: className, ...rest } = Astro.props;
+---
+
+<!-- 
+  The wrapper acts as a clipping mask. 
+  Any custom classes (like hover states or sizing) are applied here. 
+-->
+<div class:list={["relative overflow-hidden rounded-2xl", className]}>
+  <Image 
+    src={src} 
+    alt={alt} 
+    {...rest}
+    class="w-full h-full object-cover"
+  />
+</div>

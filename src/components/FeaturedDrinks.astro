@@ -2,7 +2,9 @@
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import mangoImg from '../assets/mango-passion.png';
-import { inView, animate, stagger, spring } from "motion";
+import SmartImage from '../components/SmartImage.astro'
+
+const { src, alt, class: className, ...rest } = Astro.props;
 
 // Placeholder drink data - in a real app, this might come from a CMS or local JSON
 interface Drink {
@@ -52,12 +54,12 @@ const drinks: Drink[] = [
           drink.offset
         ]}>
           <div class="relative mb-6 overflow-hidden rounded-2xl">
-            <Image 
-                src={drink.image || "https://placehold.co/400x500/gray/white?text=Missing+Drink"} 
-                alt={drink.name}
-                width={400} 
-                height={500}
-                class="object-cover w-full h-auto"
+            <SmartImage 
+              src={drink.image} 
+              alt={drink.name} 
+              width={400} 
+              height={500} 
+              class="hover:scale-110 transition-transform duration-500" 
             />
           </div>
           <div class="flex justify-between items-start mb-2">
@@ -74,16 +76,26 @@ const drinks: Drink[] = [
 </section>
 
 <script>
-  import { inView, animate, stagger, spring } from "motion";
+  import { inView, animate, stagger } from "motion";
 
+  // 1. Select and cast elements to ensure TS knows they are animatable Elements
   const cards = document.querySelectorAll('.featured-card');
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const section = document.querySelector('#featured-drinks');
 
-  if (cards.length > 0) {
-    inView("#featured-drinks", () => {
+  if (section && cards.length > 0) {
+    // 2. WAI-ARIA / WCAG Compliance Check
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    inView(section, () => {
       if (prefersReducedMotion) {
-        animate(cards, { opacity: 1 }, { duration: 0.8 });
+        // Fallback: Simple non-disorienting fade
+        animate(
+          cards, 
+          { opacity: 1 }, 
+          { duration: 0.8, delay: stagger(0.1) }
+        );
       } else {
+        // 3. Value-Specific Transition Implementation
         animate(
           cards,
           { 
@@ -91,9 +103,18 @@ const drinks: Drink[] = [
             y: [40, 0] 
           },
           { 
-            delay: stagger(0.2), 
-            duration: 0.8,
-            easing: spring({ stiffness: 100, damping: 12})
+            delay: stagger(0.2),
+            // Physics-based transition for the vertical movement
+            y: { 
+              type: "spring", 
+              stiffness: 100, 
+              damping: 12 
+            },
+            // Duration-based tween for the alpha fade
+            opacity: { 
+              duration: 0.8, 
+              ease: "easeOut" 
+            }
           }
         );
       }
