@@ -14,5 +14,5 @@ export default defineConfig({
   },
 
   // REMOVED: tailwind() from here
-  integrations: [react(), vue()], 
+  integrations: [react(), vue()],
 });
