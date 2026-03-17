@@ -1,0 +1,51 @@
+---
+import TropicalLayout from '../layouts/TropicalLayout.astro';
+import ReelEmbed from '../components/ReelEmbed.vue';
+
+const reels = [
+  {
+    url: "https://www.facebook.com/reel/123456789/",
+    description: "Watch our Barista craft the Oreo Midnight Crunch with golden chocolate dust."
+  },
+  {
+    url: "https://www.facebook.com/reel/987654321/",
+    description: "Behind the scenes: Preparing the fresh hibiscus for our Dream Frappe."
+  },
+  {
+    url: "https://www.facebook.com/reel/456789123/",
+    description: "Tropical vibe check: Customer reactions to the Golden Tamarindo Twist."
+  }
+];
+---
+
+<TropicalLayout title="Tropical Reels | Paradise Frappe">
+  <main class="py-24 px-4 container mx-auto">
+    
+    <header class="text-center mb-20 animate-in">
+      <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white drop-shadow-lg mb-4">
+        Paradise <span class="text-hot-pink">In Motion</span>
+      </h1>
+      <p class="text-tropical-teal font-bold tracking-widest uppercase text-sm">Scroll to Hydrate the Vibe</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 items-start">
+      {reels.map((reel, index) => (
+        <div 
+          class:list={[
+            "animate-in",
+            index % 2 !== 0 ? "md:mt-24" : "mt-0" // Anti-grid staggering
+          ]}
+        >
+          <div class="animate-item">
+             <ReelEmbed 
+              client:visible 
+              url={reel.url} 
+              description={reel.description} 
+            />
+          </div>
+        </div>
+      ))}
+    </div>
+
+  </main>
+</TropicalLayout>

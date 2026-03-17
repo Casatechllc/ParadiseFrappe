@@ -1,5 +1,7 @@
 ---
 import "../styles/global.css";
+import { ClientRouter } from 'astro:transitions';
+import TropicalFooter from '../components/TropicalFooter.astro';
 
 interface Props {
   title: string;
@@ -25,12 +27,7 @@ const {
     <meta name="description" content={description} />
     
     <style>
-      @theme {
-        --color-hot-pink: #FF69B4;
-        --color-tropical-teal: #008080;
-        --color-bubblegum: #FFC1CC;
-        --color-emerald: #50C878;
-      }
+    
 
       .liquid-divider {
         width: 100%;
@@ -52,6 +49,7 @@ const {
   <body class="flex min-h-screen flex-col font-sans bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100">
     
     <header class="bg-tropical-teal text-white py-6 shadow-lg">
+      <ClientRouter />
       <div class="container mx-auto px-4 flex justify-between items-center">
         <span class="text-2xl font-black tracking-tighter uppercase italic">Paradise Frappe</span>
       </div>
@@ -59,17 +57,16 @@ const {
 
     <div class="liquid-divider liquid-top bg-bubblegum/20" aria-hidden="true"></div>
 
-    <main id="main-content" class="flex-grow bg-gradient-to-b from-bubblegum/20 to-hot-pink/10">
-      <div class="container mx-auto px-4 py-12">
-        <slot /> </div>
-    </main>
+    <main id="main-content" class="flex-grow">
+  <div class="container mx-auto px-4 py-5">
+    <slot />
+  </div>
+</main>
 
-    <div class="liquid-divider liquid-bottom" aria-hidden="true"></div>
+    <!-- <div class="liquid-divider liquid-bottom" aria-hidden="true"></div> -->
 
-    <footer class="bg-hot-pink text-white py-12">
-      <div class="container mx-auto px-4 text-center">
-        <p class="font-medium">Stay Cool. Stay Tropical. &copy; {new Date().getFullYear()}</p>
-      </div>
+    <footer>
+      <TropicalFooter/>
     </footer>
 
     <script is:inline src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>

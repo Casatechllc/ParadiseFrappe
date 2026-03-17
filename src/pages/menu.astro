@@ -1,0 +1,130 @@
+---
+import TropicalLayout from '../layouts/TropicalLayout.astro';
+import InteractiveMenu, { type Category } from '../components/InteractiveMenu';
+import FrappeBuilder from '../components/FrappeBuilder';
+import { getImage } from "astro:assets";
+
+// 1. IMPORT ASSETS
+import rawBgDrinks from '../assets/bg-drinks.png';
+import oreoRaw from '../assets/oreo.jpg';
+import mangoRaw from '../assets/mango-passion.png';
+import tamarindoRaw from '../assets/tamarindo.jpg';
+import strawberryRaw from '../assets/strawberry-banana.jpg';
+import defaultRaw from '../assets/flyer.jpg';
+
+// 2. PARALLEL OPTIMIZATION
+const [oreo, mango, tamarindo, strawberry, defaultImg] = await Promise.all([
+  getImage({ src: oreoRaw, width: 600 }),
+  getImage({ src: mangoRaw, width: 600 }),
+  getImage({ src: tamarindoRaw, width: 600 }),
+  getImage({ src: strawberryRaw, width: 600 }),
+  getImage({ src: defaultRaw, width: 600 }), 
+]);
+
+const optimizedBg = await getImage({
+  src: rawBgDrinks,
+  width: 1920,
+  format: 'webp',
+});
+
+// 3. STRUCTURED DATA
+const MENU_DATA: Category[] = [
+  {
+    id: 'fruit',
+    label: 'Fruit Flavors',
+    items: [
+      { name: "Mixed Fruit", image: strawberry },
+      { name: "Mango", image: mango },
+      { name: "Mango Pineapple", image: mango },
+      { name: "Mango Berry", image: strawberry },
+      { name: "Cocolimón", image: defaultImg },
+      { name: "Mangonada w/ Tajín", image: defaultImg },
+      { name: "Passion Fruit", image: mango }
+    ]
+  },
+  {
+    id: 'lemonade',
+    label: 'Lemonades',
+    items: [
+      { name: "Classic Lemonade", image: defaultImg },
+      { name: "Strawberry Lemonade", image: strawberry },
+      { name: "Blue Raspberry", image: defaultImg },
+      { name: "Mango Lemonade", image: mango },
+      { name: "Dragon Fruit", image: defaultImg },
+      { name: "Passion Fruit", image: mango }
+    ],
+    note: "Refreshing hand-shaken lemonades over ice!"
+  },
+  {
+    id: 'chocolate',
+    label: 'Chocolate',
+    items: [
+      { name: "Oreo", image: oreo }, 
+      { name: "Reese's", image: defaultImg }, 
+      { name: "Snickers", image: defaultImg },
+      { name: "M&M's", image: defaultImg }, 
+      { name: "Nutella", image: defaultImg }, 
+      { name: "Tronky", image: defaultImg },
+      { name: "Ferrero", image: defaultImg }, 
+      { name: "Kinder Bueno", image: defaultImg },
+      { name: "Brownie Cheesecake", image: defaultImg },
+      { name: "Biscoff", image: defaultImg }
+    ],
+    note: "Add Cheesecake to any Chocolate flavor for $2 Extra!"
+  },
+  {
+    id: 'acai',
+    label: 'Acai Bowls',
+    items: [
+      { name: "Basic", image: defaultImg, description: "Acai, Granola, Honey, 2 Fruits" },
+      { name: "Everything", image: defaultImg, description: "Coconut Oil, Coco Flakes, Almonds, Nutella" }
+    ]
+  },
+  {
+    id: 'limbers',
+    label: 'Limbers',
+    items: [
+      { name: "Coco", image: defaultImg }, 
+      { name: "Tamarindo", image: tamarindo }, 
+      { name: "Guava", image: defaultImg },
+      { name: "Guanabana", image: defaultImg }, 
+      { name: "Mantecado", image: defaultImg }, 
+      { name: "Bizcocho", image: defaultImg }
+    ]
+  }
+];
+---
+
+<TropicalLayout title="Menu | Paradise Frappe">
+  <div class="fixed inset-0 z-[-1] bg-gray-950"></div>
+
+  <section class="relative w-full overflow-hidden pt-10 pb-20">
+    <div 
+      class="fixed inset-0 z-0 pointer-events-none"
+      style={`
+        background-image: url(${optimizedBg.src});
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.3;
+        mix-blend-mode: screen;
+        mask-image: radial-gradient(circle, black 30%, transparent 85%);
+        -webkit-mask-image: radial-gradient(circle, black 30%, transparent 85%);
+      `}
+    ></div>
+
+    <div class="relative z-10 text-center">
+      <h1 class="text-6xl md:text-8xl font-black uppercase italic text-white mb-16 drop-shadow-2xl">
+        The <span class="text-[#FF69B4]">Flavor</span> List
+      </h1>
+      
+      <InteractiveMenu client:load initialMenuData={MENU_DATA} />
+
+      <h1 class="text-6xl md:text-8xl font-black uppercase italic text-white mt-32 mb-12 drop-shadow-2xl">
+        Create Your <span class="text-[#FF69B4]">Flavor</span>
+      </h1>
+
+      <FrappeBuilder client:load />
+    </div>
+  </section>
+</TropicalLayout>

@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+@theme {
+        --color-hot-pink: #FF69B4;
+        --color-tropical-teal: #008080;
+        --color-bubblegum: #FFC1CC;
+        --color-emerald: #50C878;
+        --color-hot-pink: #FF69B4;
+      }

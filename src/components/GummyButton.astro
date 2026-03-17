@@ -1,31 +1,36 @@
 ---
+// 1. Logic & Imports (ONLY JS/TS here)
 interface Props {
   text: string;
   id?: string;
   class?: string;
+  href?: string;
 }
-const { text, id = "gummy-cta", class: className } = Astro.props;
+
+const { text, id = "gummy-cta", class: className, href } = Astro.props;
+const Element = href ? 'a' : 'button';
 ---
 
-<button
-  id={id}
+<Element 
+  id={id} 
+  href={href}
   class:list={[
-    "relative px-10 py-4 font-black uppercase tracking-widest text-white transition-all duration-300 ease-out",
+    "relative inline-block px-10 py-4 font-black uppercase tracking-widest text-white transition-all duration-300 ease-out text-center",
     "bg-linear-to-b from-hot-pink to-tropical-teal",
     "rounded-full cursor-pointer select-none",
     "shadow-[0_10px_20px_rgba(255,105,180,0.4)] hover:shadow-[0_15px_25px_rgba(255,105,180,0.6)]",
     "inset-shadow-sm inset-shadow-white/50 active:inset-shadow-black/20",
     "hover:scale-105 active:scale-90",
     "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-emerald focus-visible:ring-offset-2",
-
     className
   ]}
 >
   <span class="drop-shadow-md">{text}</span>
-</button>
+</Element>
 
 <style>
-  button::after {
+  /* This style will now apply to 'a' OR 'button' since both get the gummy effect */
+  a::after, button::after {
     content: '';
     position: absolute;
     top: 15%;

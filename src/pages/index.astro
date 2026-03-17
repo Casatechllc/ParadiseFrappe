@@ -1,10 +1,67 @@
 ---
 // index.astro - The Paradise Frappe Landing Page
 import TropicalLayout from '../layouts/TropicalLayout.astro';
+import PhotoCollage from '../components/PhotoCollage.tsx';
+import { getImage } from "astro:assets";
+
 import Hero from '../components/Hero.astro';
 import GummyButton from '../components/GummyButton.astro';
 import FeaturedDrinks from '../components/FeaturedDrinks.astro';
 import TropicalFooter from '../components/TropicalFooter.astro';
+import LocalConnect from '../components/LocalConnect.astro';
+
+
+import drink1 from '../assets/oreo.jpg';
+import drink2 from '../assets/strawberry-banana.jpg';
+import drink3 from '../assets/tamarindo.jpg';
+import drink4 from '../assets/pineapple-strawberry-mango.png';
+import drink5 from '../assets/481246899_1770450647071572_2305063499896421979_n.jpg';
+import drink6 from '../assets/481773657_1770450650404905_5482547617009555258_n.jpg';
+import drink7 from '../assets/487232029_1154530416684995_2407594923659546172_n.jpg';
+import drink8 from '../assets/490196548_1168161431988560_3497773743700523853_n.jpg';
+import drink9 from '../assets/493445323_1183315553806481_4520044474397494824_n.jpg';
+import drink10 from '../assets/496731603_1195610169243686_2523041782655465395_n.jpg';
+import drink11 from '../assets/496758927_1195898069214896_5025362214128408391_n.jpg';
+import drink12 from '../assets/497435176_1195610129243690_2569236516560901618_n.jpg';
+import drink13 from '../assets/504641352_24250506724556458_7541333692194857167_n.jpg';
+import drink14 from '../assets/554076777_25145722821701506_608739687289679138_n.jpg';
+import drink15 from '../assets/554471892_25145722801701508_6796582459156315666_n.jpg';
+import drink16 from '../assets/555906204_25181153544825100_913210405255923688_n.jpg';
+import drink17 from '../assets/556241369_25163761139897674_4583519843246725175_n.jpg';
+
+const rawImages = [
+  { src: drink1, alt: "Oreo Midnight Crunch close-up" },
+  { src: drink2, alt: "Strawberry Hibiscus Dream with tropical flowers" },
+  { src: drink3, alt: "Golden Tamarindo Twist with gold dust" },
+  { src: drink4, alt: "Signature Pineapple Paradise" },
+  { src: drink5, alt: "Signature Pineapple Paradise" },
+  { src: drink6, alt: "Signature Pineapple Paradise" },
+  { src: drink7, alt: "Signature Pineapple Paradise" },
+  { src: drink8, alt: "Signature Pineapple Paradise" },
+  { src: drink9, alt: "Signature Pineapple Paradise" },
+  { src: drink10, alt: "Signature Pineapple Paradise" },
+  { src: drink11, alt: "Signature Pineapple Paradise" },
+  { src: drink12, alt: "Signature Pineapple Paradise" },
+  { src: drink13, alt: "Signature Pineapple Paradise" },
+  { src: drink14, alt: "Signature Pineapple Paradise" },
+  { src: drink15, alt: "Signature Pineapple Paradise" },
+  { src: drink16, alt: "Signature Pineapple Paradise" },
+  { src: drink17, alt: "Signature Pineapple Paradise" },
+];
+
+const optimizedImages = await Promise.all(
+  rawImages.map(async (img, index) => {
+    const optimized = await getImage({ src: img.src, width: 800 });
+    return {
+      src: optimized.src,
+      alt: img.alt,
+      width: 800,
+      // We calculate height based on original aspect ratio to prevent jumpy layout
+      height: Math.floor(800 * (optimized.attributes.height / optimized.attributes.width)),
+      id: `photo-${index}`
+    };
+  })
+);
 
 const siteTitle = "Paradise Frappe | Taste the Tropics";
 const siteDescription = "Escape the heat with hyper-realistic tropical blends and hand-crafted frappes. Order your Paradise Frappe today.";
@@ -13,25 +70,28 @@ const siteDescription = "Escape the heat with hyper-realistic tropical blends an
 <TropicalLayout title={siteTitle} description={siteDescription}>
   <Hero />
 
-  <section 
-    id="flavor-cta" 
-    class="relative z-50 py-20 flex flex-col items-center justify-center px-4 animate-in"
-  >
-    <h2 class="sr-only">Choose Your Flavor</h2>
-    
-    <div class="animate-item">
-      <GummyButton 
-        text="Explore All Flavors" 
-        id="gummy-cta-main" 
-        class="scale-110" 
-      />
-    </div>
-
-    <p class="mt-10 text-sm font-black uppercase tracking-widest text-tropical-teal animate-item">
-      Tropical. Chilled. Digital.
-    </p>
-  </section>
+  <section class="relative z-50 py-20 flex flex-col items-center justify-center px-4 animate-in">
+  <div class="animate-item">
+    <GummyButton text="Explore All Flavors" href="/menu" id="gummy-cta-main" />
+  </div>
+  
+  <p class="mt-10 text-sm font-black uppercase tracking-widest text-tropical-teal animate-item">
+    Tropical. Chilled. Digital.
+  </p>
+</section>
 
   <FeaturedDrinks />
-  <TropicalFooter />
+  <LocalConnect />
+
+  <section class="py-20 bg-white/5">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-black uppercase italic text-center mb-12 text-tropical-teal">
+        #ParadiseMoments
+      </h2>
+      
+      {/* 3. The React component needs client:load to be interactive */}
+      <PhotoCollage client:load images={optimizedImages} />
+    </div>
+  </section>
+
 </TropicalLayout>

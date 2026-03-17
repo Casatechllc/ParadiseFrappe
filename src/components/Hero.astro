@@ -2,38 +2,24 @@
 import { Image } from 'astro:assets';
 
 // Placeholder imports - Replace these with your actual asset paths
-// import frappeImg from '../assets/frappe-glass.png';
-// import flamingoImg from '../assets/flamingo.png';
-// import leafImg from '../assets/monster-leaf.png';
+import frappeImg from '../assets/pineapple-strawberry-mango.png';
+import flamingoImg from '../assets/flamingo3.png';
+import leafImg from '../assets/monster-leaf.png';
 
-const frappeImg = "https://placehold.co/600x800/hot-pink/white?text=Hyper-Realistic+Frappe";
-const flamingoImg = "https://placehold.co/400x600/hot-pink/white?text=Flamingo";
-const leafImg = "https://placehold.co/300x300/emerald/white?text=Leaf";
+// const frappeImg = '../assets/pineapple-strawberry-mango.png';
+// const flamingoImg = "https://placehold.co/400x600/hot-pink/white?text=Flamingo";
+// const leafImg = "https://placehold.co/300x300/emerald/white?text=Leaf";
 ---
 
-<section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-0">
   
   <div class="absolute inset-0 z-0 pointer-events-none select-none">
     <div class="absolute -left-16 bottom-0 md:left-0 opacity-80 rotate-12">
-       <Image 
-        src={flamingoImg} 
-        alt="" 
-        width={450} 
-        height={650} 
-        class="object-contain"
-      />
+       <Image src={flamingoImg} alt="" width={450} height={650} class="object-contain" />
     </div>
-
     <div class="absolute -right-16 bottom-0 md:right-0 opacity-80 -rotate-12 scale-x-[-1]">
-       <Image 
-        src={flamingoImg} 
-        alt="" 
-        width={450} 
-        height={650} 
-        class="object-contain"
-      />
+       <Image src={flamingoImg} alt="" width={450} height={650} class="object-contain" />
     </div>
-
     <div class="absolute top-20 left-1/4 -z-10 blur-sm opacity-40">
       <Image src={leafImg} alt="" width={300} height={300} />
     </div>
@@ -44,19 +30,19 @@ const leafImg = "https://placehold.co/300x300/emerald/white?text=Leaf";
 
   <div class="container relative z-10 px-4 flex flex-col items-center">
     
-    <div class="relative mb-[-120px] z-20 transition-transform duration-500 hover:scale-105">
+    <div class="relative mb-[-80px] z-0 transition-transform duration-500 hover:scale-105">
       <Image 
         src={frappeImg} 
-        alt="A condensation-beaded glass of Paradise Frappe topped with whipped cream and a tropical umbrella" 
+        alt="A tropical Pineapple drink" 
         width={500} 
         height={700}
         loading="eager"
         fetchpriority="high"
-        class="drop-shadow-[0_35px_35px_rgba(255,105,180,0.5)]"
+        class="drop-shadow-[0_35px_35px_rgba(255,105,180,0.5)] saturate-150 contrast-110 brightness-110"
       />
     </div>
 
-    <div class="max-w-2xl w-full bg-white/20 backdrop-blur-xl border border-white/30 shadow-2xl rounded-3xl p-8 md:p-12 text-center">
+    <div class="relative z-20 max-w-2xl w-full bg-white/20 backdrop-blur-xl border border-white/30 shadow-2xl rounded-3xl p-8 md:p-12 text-center">
       <h1 class="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-none mb-6"
           style="text-shadow: 4px 4px 0px var(--color-hot-pink), 8px 8px 0px var(--color-tropical-teal); -webkit-text-stroke: 2px white;">
         Taste the <span class="text-hot-pink">Paradise</span>
@@ -81,7 +67,7 @@ const leafImg = "https://placehold.co/300x300/emerald/white?text=Leaf";
 <style>
   /* Custom text-shadow layering to create a "Bubbly" thick stroke effect */
   h1 {
-    font-family: 'BubblyVariable', sans-serif; /* Ensure you load your custom font in global.css */
+    font-family: 'BubblyVariable', sans-serif;
     filter: drop-shadow(0 10px 10px rgba(0,0,0,0.2));
   }
 </style>

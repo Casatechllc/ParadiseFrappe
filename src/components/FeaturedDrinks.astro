@@ -1,7 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import mangoImg from '../assets/mango-passion.png';
+import oreoImg from '../assets/oreo.jpg';
+import strawberryBananaImg from '../assets/strawberry-banana.jpg';
+import tamarindoImg from '../assets/tamarindo.jpg';
 import SmartImage from '../components/SmartImage.astro'
 
 const { src, alt, class: className, ...rest } = Astro.props;
@@ -17,24 +19,24 @@ interface Drink {
 
 const drinks: Drink[] = [
   {
-    name: "Mango Passion Bliss",
-    description: "A sun-drenched blend of Alfonso mango and tart passionfruit.",
-    image: mangoImg,
-    price: "$6.50",
+    name: "Oreo Midnight Crunch",
+    description: "A decadent, velvet-smooth chocolate base loaded with crushed Oreo chunks, topped with whipped cream, chocolate drizzle, and a golden dusting for that 'VIP' dessert experience.",
+    image: oreoImg,
+    price: "$11.50",
     offset: "mt-0" 
   },
   {
-    name: "Electric Emerald",
-    description: "Cooling mint mixed with matcha and white chocolate curls.",
-    image: "https://placehold.co/400x500/008080/white?text=Electric+Emerald",
-    price: "$7.25",
+    name: "Strawberry Hibiscus Dream",
+    description: "Sun-ripened strawberries blended into a creamy pink paradise. Garnished with fresh berry slices, a tropical umbrella, and an edible orchid for the ultimate 'vacation in a cup'.",
+    image: strawberryBananaImg,
+    price: "$12.25",
     offset: "md:-mt-12"
   },
   {
-    name: "Bubblegum Sky",
-    description: "Sweet nostalgic bubblegum with a blue raspberry swirl.",
-    image: "https://placehold.co/400x500/FFC1CC/white?text=Bubblegum+Sky",
-    price: "$6.75",
+    name: "Golden Tamarindo Twist",
+    description: "A bold, tangy-sweet fusion of traditional Tamarindo with a signature chilled twist. Featuring whipped peaks, chewy tamarind candy, and a splash of tropical purple flair.",
+    image: tamarindoImg,
+    price: "$10.75",
     offset: "mt-0"
   }
 ];
