@@ -2,6 +2,8 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite'; // The Vite plugin
 import react from '@astrojs/react';
 
+import vue from '@astrojs/vue';
+
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()], // This is where v4 lives now
@@ -12,5 +14,5 @@ export default defineConfig({
   },
 
   // REMOVED: tailwind() from here
-  integrations: [react()], 
+  integrations: [react(), vue()], 
 });
